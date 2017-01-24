@@ -1,6 +1,5 @@
 {
     "Version": "2012-10-17",
-    "Id": "letsencrypt-route53 sample policy",
     "Statement": [
         {
             "Effect": "Allow",
@@ -17,7 +16,7 @@
             "Effect": "Allow",
             "Action": [
                 "route53:List*",
-                "route53:Get*",
+                "route53:Get*"
             ],
             "Resource": [
                 "*"
