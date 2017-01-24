@@ -18,6 +18,7 @@ from letsencrypt.plugins import common
 
 logger = logging.getLogger(__name__)
 
+
 class Authenticator(common.Plugin):
     zope.interface.implements(interfaces.IAuthenticator)
     zope.interface.classProvides(interfaces.IPluginFactory)
@@ -32,7 +33,7 @@ class Authenticator(common.Plugin):
         pass  # pragma: no cover
 
     def more_info(self):  # pylint: disable=missing-docstring,no-self-use
-        return ("")
+        return ""
 
     def get_chall_pref(self, domain):
         # pylint: disable=missing-docstring,no-self-use,unused-argument
@@ -50,14 +51,14 @@ class Authenticator(common.Plugin):
         r53 = boto3.client('route53')
         logger.info("Doing validation for " + response.domain)
         listResponse = r53.list_hosted_zones_by_name(DNSName=response.domain)
-        matches = listResponse.HostedZones;
+        matches = listResponse.HostedZones
         if matches.size != 0:
-            logger.error("Route53 returned " + mathces.size + " matching hosted zones. Expected exactly one. Auth canceled.")
+            logger.error("Route53 returned " + matches.size + " matching hosted zones. Expected exactly one. Auth canceled.")
             return None
         else:
             r53.change_resource_record_sets(HostedZoneId=matches[0].Id,
                 ChangeBatch={
-                'Comment': 'Let\'s Entcrypt Change',
+                'Comment': 'Let\'s Encrypt Change',
                 'Changes': [
                     {
                         'Action': 'UPSERT',
@@ -86,7 +87,7 @@ class Authenticator(common.Plugin):
 
     def cleanup(self, achalls):
         # pylint: disable=missing-docstring,no-self-use,unused-argument
-        #TODO:Cleanup record 
+        # TODO:Cleanup record 
         r53 = boto3.client('route53')
         #for achall in achalls:
         #    r53.delete_object(Bucket=self.conf('s3-bucket'), Key=achall.chall.path[1:])
